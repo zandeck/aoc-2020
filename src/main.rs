@@ -9,4 +9,5 @@ fn main() {
     println!("{:?}", challenges::day1::part1_4(&data));
     println!("{:?}", challenges::day1::part1_4smart(&data));
     println!("{:?}", challenges::day1::part1_5(&data));
+    println!("{:?}", challenges::day1::part1_5p(&data));
 }

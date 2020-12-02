@@ -1,7 +1,8 @@
 use crate::challenges::utils;
-use bit_vec::BitVec;
+use bitvec::prelude::*;
 use itertools::Itertools;
 use std::collections::HashSet;
+use std::iter::repeat;
 
 fn f(data: &[i32], combi: usize) -> i32 {
     data.iter()
@@ -82,9 +83,43 @@ pub fn part1_4smart(data: &[i32]) -> i32 {
         .unwrap()
 }
 
+pub fn part1_4smartvec(data: &[i32]) -> i32 {
+    //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
+    let mut s = vec![false; 2020];
+
+    data.iter()
+        .find_map(|&e| {
+            if s[2019 - e as usize] {
+                Some((2020 - e) * e)
+            } else {
+                s[e as usize - 1] = true;
+                None
+            }
+        })
+        .unwrap()
+}
+
 pub fn part1_5(data: &[i32]) -> i32 {
     //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
     let mut bv = bit_vec::BitVec::from_elem(2020, false);
+    data.iter().for_each(|e| {
+        bv.set(*e as usize - 1, true);
+    });
+
+    data.iter()
+        .find_map(|&e| {
+            if bv[2019 - e as usize] {
+                Some((2020 - e) * e)
+            } else {
+                None
+            }
+        })
+        .unwrap()
+}
+use std::{cmp, env};
+pub fn part1_5p(data: &[i32]) -> i32 {
+    //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
+    let mut bv = BitVec::<LocalBits, usize>::repeat(false, 2020);
     data.iter().for_each(|e| {
         bv.set(*e as usize - 1, true);
     });
