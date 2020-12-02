@@ -1,4 +1,5 @@
 use crate::challenges::utils;
+use bit_vec::BitVec;
 use itertools::Itertools;
 use std::collections::HashSet;
 
@@ -39,6 +40,58 @@ pub fn part1_3(data: &[i32]) -> i32 {
     data.iter()
         .find_map(|&e| {
             if s.contains(&(2020 - e)) {
+                Some((2020 - e) * e)
+            } else {
+                None
+            }
+        })
+        .unwrap()
+}
+
+pub fn part1_4(data: &[i32]) -> i32 {
+    //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
+    let mut s = [false; 2020];
+    data.iter().for_each(|e| {
+        s[*e as usize - 1] = true;
+    });
+
+    data.iter()
+        .find_map(|&e| {
+            if s[2019 - e as usize] {
+                Some((2020 - e) * e)
+            } else {
+                None
+            }
+        })
+        .unwrap()
+}
+
+pub fn part1_4smart(data: &[i32]) -> i32 {
+    //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
+    let mut s = [false; 2020];
+
+    data.iter()
+        .find_map(|&e| {
+            if s[2019 - e as usize] {
+                Some((2020 - e) * e)
+            } else {
+                s[e as usize - 1] = true;
+                None
+            }
+        })
+        .unwrap()
+}
+
+pub fn part1_5(data: &[i32]) -> i32 {
+    //let data: Vec<i32> = utils::read_file("./resources/1_1.txt").unwrap();
+    let mut bv = bit_vec::BitVec::from_elem(2020, false);
+    data.iter().for_each(|e| {
+        bv.set(*e as usize - 1, true);
+    });
+
+    data.iter()
+        .find_map(|&e| {
+            if bv[2019 - e as usize] {
                 Some((2020 - e) * e)
             } else {
                 None
